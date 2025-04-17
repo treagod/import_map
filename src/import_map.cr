@@ -1,6 +1,6 @@
-# TODO: Write documentation for `ImportMap`
+require "json"
+require "./**"
+
 module ImportMap
   VERSION = "0.1.0"
-
-  # TODO: Put your code here
 end
