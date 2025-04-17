@@ -7,7 +7,7 @@ module ImportMap
     end
 
     # Adds a new pin. Raises `DuplicatePinError` if the specifier already exists and `override` is not set to true.
-    def pin(specifier : String, url : String, preload : Bool = false, override : Bool = false)
+    def pin(specifier : String, url : String, preload : Bool = true, override : Bool = false)
       if @entries.has_key?(specifier) && !override
         raise DuplicatePinError.new("Specifier #{specifier} already pinned")
       end
@@ -34,12 +34,12 @@ module ImportMap
     end
 
     def preload_urls(resolver : Proc(String, String)? = nil) : Array(String)
-      url = Array(String).new(@entries.size)
+      urls = Array(String).new(@entries.size)
       @entries.each_value do |entry|
         next unless entry.preload
 
         url = entry.url.starts_with?("/") && resolver ? resolver.call(entry.url) : entry.url
-        url << url
+        urls << url
       end
       urls
     end
