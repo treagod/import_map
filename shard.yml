@@ -1,0 +1,9 @@
+name: import_map
+version: 0.1.0
+
+authors:
+  - Marvin Ahlgrimm <marv.ahlgrimm@gmail.com>
+
+crystal: '>= 1.16.0'
+
+license: MIT
