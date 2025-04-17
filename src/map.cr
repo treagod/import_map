@@ -36,7 +36,7 @@ module ImportMap
     def preload_urls(resolver : Proc(String, String)? = nil) : Array(String)
       urls = Array(String).new(@entries.size)
       @entries.each_value do |entry|
-        next unless entry.preload
+        next unless entry.preload?
 
         url = entry.url.starts_with?("/") && resolver ? resolver.call(entry.url) : entry.url
         urls << url

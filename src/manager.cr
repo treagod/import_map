@@ -7,6 +7,7 @@ module ImportMap
     @resolver : Proc(String, String) = ->(path : String) { path }
 
     @@instance : Manager? = nil
+
     def self.instance
       @@instance ||= new
     end
@@ -46,7 +47,7 @@ module ImportMap
     private def resolve_map(ns : String? = nil) : Map
       return @base if ns.nil?
 
-      ns_map = @namespace[ns]? ||  raise NamespaceError.new("Unknown namespace: #{ns}")
+      ns_map = @namespace[ns]? || raise NamespaceError.new("Unknown namespace: #{ns}")
 
       @base.merge(ns_map)
     end

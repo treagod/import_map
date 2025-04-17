@@ -1,6 +1,5 @@
 require "./spec_helper"
 
-
 ImportMap.draw do
   pin "stimulus", "/js/stimulus.js"
 
