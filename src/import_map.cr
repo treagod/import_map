@@ -19,11 +19,11 @@ module ImportMap
     preloads = m.preloads(ns)
 
     String.build do |io|
+      data = ns ? %( data-namespace="#{ns}") : ""
+      io << %(<script type="importmap"#{data}>#{json}</script>\n)
       preloads.each do |url|
         io << %(<link rel="modulepreload" href="#{url}">\n)
       end
-      data = ns ? %( data-namespace="#{ns}") : ""
-      io << %(<script type="importmap"#{data}>#{json}</script>\n)
       if entrypoint
         io << %(<script type="module">import #{entrypoint}</script>\n)
       end
