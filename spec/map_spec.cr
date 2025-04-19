@@ -9,6 +9,14 @@ describe ImportMap::Map do
     json.should eq({"imports" => {"stimulus" => "/js/stimulus.js", "turbo" => "/js/turbo.js"}}.to_json)
   end
 
+  it "pins entries without starting slash and outputs valid JSON" do
+    map = ImportMap::Map.new
+    map.pin("stimulus", "js/stimulus.js", preload: false)
+    map.pin("turbo", "js/turbo.js")
+    json = map.to_json_string
+    json.should eq({"imports" => {"stimulus" => "js/stimulus.js", "turbo" => "js/turbo.js"}}.to_json)
+  end
+
   it "detects duplicate pins" do
     map = ImportMap::Map.new
     map.pin("stimulus", "/js/stimulus.js")

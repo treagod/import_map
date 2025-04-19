@@ -1,5 +1,7 @@
 module ImportMap
   class Map
+    URI_SCHEME_REGEX = /\A[a-z][a-z0-9+\-.]*:\/\//i
+
     @entries : Hash(String, Entry) = {} of String => Entry
 
     protected def entries
@@ -22,7 +24,7 @@ module ImportMap
               json.object do
                 @entries.each do |specifier, entry|
                   json.field specifier do
-                    url = entry.url.starts_with?("/") && resolver ? resolver.call(entry.url) : entry.url
+                    url = resolver && needs_resolve?(entry.url) ? resolver.call(entry.url) : entry.url
                     json.string url
                   end
                 end
@@ -38,7 +40,7 @@ module ImportMap
       @entries.each_value do |entry|
         next unless entry.preload?
 
-        url = entry.url.starts_with?("/") && resolver ? resolver.call(entry.url) : entry.url
+        url = resolver && needs_resolve?(entry.url) ? resolver.call(entry.url) : entry.url
         urls << url
       end
       urls
@@ -55,6 +57,10 @@ module ImportMap
       end
 
       merged
+    end
+
+    private def needs_resolve?(url : String) : Bool
+      !URI_SCHEME_REGEX.matches?(url)
     end
   end
 end
