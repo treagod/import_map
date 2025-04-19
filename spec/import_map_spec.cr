@@ -20,7 +20,7 @@ describe ImportMap do
     html.includes?(%(<link rel="modulepreload" href="/js/stimulus.js">)).should be_true
     html.includes?(%(<link rel="modulepreload" href="/js/admin/sort_controller.js">)).should be_false
     html.includes?(%(<script type="importmap" data-namespace="admin">)).should be_true
-    html.includes?(%(<script type="module">import entrypoint</script>)).should be_true
+    html.includes?(%(<script type="module">import "entrypoint"</script>)).should be_true
     html.includes?(%(<script type="importmap">)).should be_false
   end
 
