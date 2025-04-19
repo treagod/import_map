@@ -1,0 +1,38 @@
+name: Specs
+
+on:
+  push:
+    branches: "*"
+  pull_request:
+    branches: "*"
+  schedule:
+    - cron: '0 0 * * *' # Daily at midnight UTC
+
+jobs:
+  specs:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal: [
+          '1.14.1',
+          '1.15.1',
+          '1.16.1',
+          'nightly',
+        ]
+    container:
+      image: crystallang/crystal:${{ matrix.crystal }}
+    steps:
+      - name: "[Git] Checkout code"
+        uses: actions/checkout@v4.2.2
+
+      - name: Install shards
+        run: shards install --ignore-crystal-version
+
+      - name: Cache Crystal
+        uses: actions/cache@v4.2.3
+        with:
+          path: ~/.cache/crystal
+          key: ${{ runner.os }}-crystal-${{ matrix.crystal }}
+      - name: Run specs
+        run: crystal spec -v --error-trace --no-color
