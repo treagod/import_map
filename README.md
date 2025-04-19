@@ -80,7 +80,8 @@ Result:
 - CLI tool for pinning/unpinning CDN packages
 - Static build command (importmap build)
 - Vulnerability & outdated‑package audit
-- Add scopes
+- Add importmap scopes
+- `pin_all_from` functionality 
 
 ## 💡 Contributing
 
