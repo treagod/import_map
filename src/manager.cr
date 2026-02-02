@@ -22,6 +22,11 @@ module ImportMap
       @cache.clear
     end
 
+    def pin_all_from(*args, **kwargs)
+      @base.pin_all_from(*args, **kwargs)
+      @cache.clear
+    end
+
     def namespace(name : String, &)
       map = (@namespace[name] ||= Map.new)
       with map yield

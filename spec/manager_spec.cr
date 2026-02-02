@@ -63,4 +63,23 @@ describe ImportMap::Manager do
     mgr.preloads.empty?.should be_true
     mgr.preloads("admin").empty?.should be_true
   end
+
+  it "expands pin_all_from directives inside namespaces" do
+    with_tmpdir do |dir|
+      controllers_dir = File.join(dir, "controllers")
+      FileUtils.mkdir_p(controllers_dir)
+      File.write(File.join(controllers_dir, "menu_controller.js"), "// menu")
+
+      mgr = ImportMap::Manager.new
+      mgr.namespace("admin") do
+        pin_all_from(controllers_dir, under: "controllers", to: "controllers")
+      end
+
+      mgr.json("admin").should eq({
+        "imports" => {
+          "controllers/menu_controller" => "controllers/menu_controller.js",
+        },
+      }.to_json)
+    end
+  end
 end

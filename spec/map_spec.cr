@@ -43,6 +43,49 @@ describe ImportMap::Map do
     json.should eq({"imports" => {"stimulus" => "/assets/js/stimulus.js?v=abc", "turbo" => "/assets/js/turbo.js?v=abc"}}.to_json)
   end
 
+  it "pins all modules from a directory with namespace and destination overrides" do
+    with_tmpdir do |dir|
+      controllers_dir = File.join(dir, "controllers")
+      FileUtils.mkdir_p(File.join(controllers_dir, "admin"))
+
+      File.write(File.join(controllers_dir, "admin", "user_controller.js"), "// admin controller")
+      File.write(File.join(controllers_dir, "hello_controller.js"), "// hello controller")
+      File.write(File.join(controllers_dir, ".keep"), "")
+
+      map = ImportMap::Map.new
+      map.pin_all_from(controllers_dir, under: "controllers", to: "controllers")
+
+      json = map.to_json_string
+      json.should eq({
+        "imports" => {
+          "controllers/admin/user_controller" => "controllers/admin/user_controller.js",
+          "controllers/hello_controller"      => "controllers/hello_controller.js",
+        },
+      }.to_json)
+    end
+  end
+
+  it "allows pin_all_from without namespace and respects preload flag" do
+    with_tmpdir do |dir|
+      services_dir = File.join(dir, "services")
+      FileUtils.mkdir_p(services_dir)
+
+      File.write(File.join(services_dir, "logger.mjs"), "// logger")
+
+      map = ImportMap::Map.new
+      map.pin_all_from(services_dir, preload: false)
+
+      map.preload_urls.should be_empty
+
+      json = map.to_json_string
+      json.should eq({
+        "imports" => {
+          "logger" => "logger.mjs",
+        },
+      }.to_json)
+    end
+  end
+
   it "merged allows other map to override duplicates" do
     base = ImportMap::Map.new
     base.pin("stimulus", "/js/stimulus.js")

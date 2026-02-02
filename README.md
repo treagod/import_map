@@ -74,6 +74,23 @@ Result:
 <script type="module">import "admin-ui"</script>
 ```
 
+## 📁 Pin entire directories
+
+Use `pin_all_from` to automatically expose every `.js`/`.mjs` file in a directory under a namespace. This mirrors Rails' importmap ergonomics for Stimulus controllers or other entrypoints.
+
+```crystal
+ImportMap.draw do
+  pin "@hotwired/stimulus", to: "vendor/stimulus.js"
+  pin_all_from "assets/controllers", under: "controllers", to: "controllers"
+end
+```
+
+- `under:` controls the import specifier namespace (`controllers/menu_controller` in the example above).
+- `to:` controls the logical asset path that gets passed to your resolver. Omit it to use the same prefix as `under` (or the raw relative path if `under` is `nil`).
+- `preload:` defaults to `true`, matching `pin`.
+
+`pin_all_from` entries participate in the same caching as regular pins, so calling `ImportMap.draw` (or `ImportMap::Manager.instance.pin_all_from`) followed by `ImportMap.tag` keeps runtime overhead low.
+
 
 ## 📚 Roadmap
 
@@ -81,7 +98,6 @@ Result:
 - Static build command (importmap build)
 - Vulnerability & outdated‑package audit
 - Add importmap scopes
-- `pin_all_from` functionality 
 
 ## 💡 Contributing
 
