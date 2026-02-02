@@ -53,7 +53,7 @@ module ImportMap
         merged.entries[specifier] = entry
       end
       other.entries.each do |specifier, entry|
-        merged.entries[specifier] = entry unless merged.entries.has_key?(specifier)
+        merged.entries[specifier] = entry
       end
 
       merged

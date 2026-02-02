@@ -21,6 +21,16 @@ describe ImportMap::Manager do
     mgr.json("admin").should eq({"imports" => {"stimulus" => "/js/stimulus.js", "sort_controller" => "/js/admin/sort_controller.js"}}.to_json)
   end
 
+  it "allows namespace pins to override base pins" do
+    mgr = ImportMap::Manager.new
+    mgr.pin("application", "/js/application.js")
+    mgr.namespace("admin") do
+      pin("application", "/js/admin/application.js")
+    end
+
+    mgr.json("admin").should eq({"imports" => {"application" => "/js/admin/application.js"}}.to_json)
+  end
+
   it "raises on unknown namespace" do
     mgr = ImportMap::Manager.new
 

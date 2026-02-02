@@ -43,7 +43,7 @@ describe ImportMap::Map do
     json.should eq({"imports" => {"stimulus" => "/assets/js/stimulus.js?v=abc", "turbo" => "/assets/js/turbo.js?v=abc"}}.to_json)
   end
 
-  it "merged keeps self precedence" do
+  it "merged allows other map to override duplicates" do
     base = ImportMap::Map.new
     base.pin("stimulus", "/js/stimulus.js")
 
@@ -52,7 +52,7 @@ describe ImportMap::Map do
     admin.pin("stimulus", "/js/admin/stimulus.js")
 
     merged = base.merge(admin)
-    merged.entries["stimulus"].url.should eq("/js/stimulus.js")
+    merged.entries["stimulus"].url.should eq("/js/admin/stimulus.js")
     merged.entries.has_key?("sort_controller").should be_true
   end
 end
