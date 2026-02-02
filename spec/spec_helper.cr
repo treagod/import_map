@@ -1,7 +1,7 @@
 require "spec"
 require "file_utils"
 require "random/secure"
-require "../src/import_map"
+require "../src/importmap"
 
 module ImportMap
   class Map

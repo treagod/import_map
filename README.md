@@ -1,11 +1,11 @@
-# ImportMap.cr ‑ A framework‑agnostic import‑map shard for Crystal
+# importmap.cr ‑ A framework‑agnostic import‑map shard for Crystal
 
 > **Load JavaScript modules without bundlers**
 > Define pins in Crystal, merge them per‑namespace, and render a `<script type="importmap">` tag at runtime.
 
-[![GitHub Release](https://img.shields.io/github/v/release/treagod/import_map?style=flat)](https://github.com/treagod/import_map/releases)
-[![ImportMap.cr Specs](https://github.com/treagod/import_map/actions/workflows/specs.yml/badge.svg)](https://github.com/treagod/import_map/actions/workflows/specs.yml)
-[![QA](https://github.com/treagod/import_map/actions/workflows/qa.yml/badge.svg)](https://github.com/treagod/import_map/actions/workflows/qa.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/treagod/importmap?style=flat)](https://github.com/treagod/importmap/releases)
+[![importmap.cr Specs](https://github.com/treagod/importmap/actions/workflows/specs.yml/badge.svg)](https://github.com/treagod/importmap/actions/workflows/specs.yml)
+[![QA](https://github.com/treagod/importmap/actions/workflows/qa.yml/badge.svg)](https://github.com/treagod/importmap/actions/workflows/qa.yml)
 
 ---
 
